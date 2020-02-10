@@ -28,7 +28,6 @@
 # [optional] ntp server for the cluster
 [chrony]
 172.27.0.6
-172.27.0.7
 
 [all:vars]
 # --------- Main Variables ---------------
