@@ -22,5 +22,8 @@ vi /etc/ansible/hosts
 
 #同步时间服务器
 ansible-playbook /etc/ansible/roles/chrony/chrony.yml
+
+#docker使用ntp方法
+docker run --restart=always --privileged -itd --cap-add SYS_TIME --name chrony --publish 123:123/udp alvistack/chrony-3.5
 ```
 
