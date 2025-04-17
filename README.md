@@ -25,5 +25,19 @@ ansible-playbook /etc/ansible/roles/chrony/chrony.yml
 
 #docker使用ntp方法
 docker run --restart=always --privileged -itd --cap-add SYS_TIME --name chrony --publish 123:123/udp alvistack/chrony-3.5
+
+
+
+#场景：服务器A在本地没公网IP,服务器B不能上网有公网IP,通过服务器A ssh到服务器B反向代理来同步时间.
+服务器A开启反向代理:(反向代理不支持UDP)
+ssh -R 222:192.168.1.6:22 root@110.184.161.x -N
+
+
+#服务器B通过服务器A的反向代理来同步时间.
+export https_proxy=http://localhost:222
+export http_proxy=http://localhost:222
+date_utc=$(curl -s --head http://time.windows.com | grep ^Date: | sed 's/Date: //')
+date_china=$(TZ='Asia/Shanghai' date -d "$date_utc" +"%Y-%m-%d %H:%M:%S")
+date -s "$date_china"
 ```
 
