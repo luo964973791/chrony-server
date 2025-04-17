@@ -28,8 +28,8 @@ docker run --restart=always --privileged -itd --cap-add SYS_TIME --name chrony -
 
 
 
-#场景：服务器A在本地没公网IP,服务器B不能上网有公网IP,通过服务器A ssh到服务器B反向代理来同步时间.
-服务器A开启反向代理:(反向代理不支持UDP)
+#场景：服务器A在本地没公网IP可以上网,服务器B不能上网有公网IP,通过服务器A ssh到服务器B反向代理来同步时间.
+服务器A开启反向代理:(反向代理不支持UDP，要是支持UDP就不用这么麻烦了)
 ssh -R 222:192.168.1.6:22 root@110.184.161.x -N
 
 
