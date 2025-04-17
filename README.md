@@ -29,15 +29,16 @@ docker run --restart=always --privileged -itd --cap-add SYS_TIME --name chrony -
 
 
 #场景：方案一、服务器A在本地没公网IP但是可以上网,服务器B不能上网有公网IP,通过服务器A ssh到服务器B反向代理来同步时间.
-服务器A开启反向代理:(反向代理不支持UDP，要是支持UDP就不用这么麻烦了)
-ssh -R 222:192.168.1.6:22 root@110.184.161.x -N
+服务器A: 可以上网的服务器执行
+docker run --restart=always --privileged -itd --cap-add SYS_TIME --name chrony --publish 123:123/udp alvistack/chrony-3.5
+socat TCP-LISTEN:123,fork,reuseaddr UDP:localhost:123
+ssh -R 123:localhost:123 root@115.231.181.121 -N
 
 
-#服务器B通过服务器A的反向代理来同步时间.
-export https_proxy=http://localhost:222
-export http_proxy=http://localhost:222
-yum install proxychains-ng -y
-proxychains ntpdate -u ntp1.aliyun.com
+服务器B: 不可以上网的服务器执行
+socat UDP-LISTEN:123,fork,reuseaddr TCP:localhost:123
+ntpdate -u 127.0.0.1
+chronyd -q 'server 127.0.0.1 iburst'
 
 
 
