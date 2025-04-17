@@ -36,9 +36,8 @@ ssh -R 222:192.168.1.6:22 root@110.184.161.x -N
 #服务器B通过服务器A的反向代理来同步时间.
 export https_proxy=http://localhost:222
 export http_proxy=http://localhost:222
-date_utc=$(curl -s --head http://time.windows.com | grep ^Date: | sed 's/Date: //')
-date_china=$(TZ='Asia/Shanghai' date -d "$date_utc" +"%Y-%m-%d %H:%M:%S")
-date -s "$date_china"
+yum install proxychains-ng -y
+proxychains ntpdate -u ntp1.aliyun.com
 
 
 
