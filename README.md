@@ -33,7 +33,7 @@ docker run --restart=always --privileged -itd --cap-add SYS_TIME --name chrony -
 docker run --restart=always --privileged -itd --cap-add SYS_TIME --name chrony --publish 123:123/udp alvistack/chrony-3.5
 yum install socat -y
 socat TCP-LISTEN:123,fork,reuseaddr UDP:localhost:123
-ssh -R 123:localhost:123 root@115.231.181.121 -N
+ssh -R 123:localhost:123 root@172.27.0.4 -N
 
 
 服务器B: 不可以上网的服务器执行
