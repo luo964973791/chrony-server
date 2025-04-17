@@ -69,6 +69,7 @@ local_ip = pool.ntp.org
 local_port = 123
 remote_port = 123
 EOF
+
 ./frpc -c frpc.ini
 
 
